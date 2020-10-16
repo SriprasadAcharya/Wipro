@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, FlatList, Text, Image} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {imageListApi} from '../redux/actions';
 import axios from 'axios';
@@ -8,32 +8,29 @@ class ImageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageListArray: ''
-    }
-    // this.handleLoadMore = this.handleLoadMore.bind(this);
+      imageString: '',
+    };
   }
 
   componentDidMount() {
-    this.props.imageListApi();
-    axios.get('https://picsum.photos/list')
-  .then(function (response) {
-    console.log(response[0].author_url);
-    this.setState({imageListArray: response[0].author_url})
-    // return response
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    // this.props.imageListApi();
+    const that = this;
+    axios
+      .get('https://picsum.photos/list')
+      .then(function (response) {
+        console.warn('RESPONSE', response.data[0].author_url);
+        that.setState({imageString: response.data[0].author_url});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   render() {
-    // console.log('this.props.actorListArray', this.props.imageListArray);
+    console.warn('imageString', this.state.imageString);
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={{uri: imageListArray}}
-        />
+        <Image style={styles.logo} source={{uri: this.state.imageString}} />
       </View>
     );
   }
@@ -53,6 +50,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 200,
-    height: 300,
+    height: 200,
   },
 });

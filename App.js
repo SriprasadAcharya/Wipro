@@ -18,10 +18,6 @@ import {
 
 import ImageList from './app/screens/imageList';
 
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-
 const App = () => {
   return (
       <ImageList/>
